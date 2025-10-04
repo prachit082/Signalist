@@ -2,13 +2,14 @@ import React from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { FieldValues, UseFormRegister } from "react-hook-form";
 
-interface FormInputProps {
-  name: string;
+interface FormInputProps<T extends FieldValues = any> {
+  name: keyof T & string;
   label: string;
   placeholder?: string;
   type?: string;
-  register: (name: string, validation?: any) => any;
+  register: UseFormRegister<T>;
   error?: { message?: string };
   validation?: any;
   disabled?: boolean;
