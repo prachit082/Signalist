@@ -1,7 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   return (
@@ -28,7 +26,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
           </blockquote>
           <div className="flex items-center justify-between">
             <div>
-              <cite className="auth-testimonial-author">- Ethan R.</cite>
+              <cite className="auth-testimonial-author">- Vinit R.</cite>
               <p className="max-md:text-xs text-gray-500">Retail Investor</p>
             </div>
             <div className="flex items-center gap-0.5">
