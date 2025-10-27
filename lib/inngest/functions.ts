@@ -1,6 +1,7 @@
 import {inngest} from "@/lib/inngest/client";
 import {NEWS_SUMMARY_EMAIL_PROMPT, PERSONALIZED_WELCOME_EMAIL_PROMPT} from "@/lib/inngest/prompts";
 import {sendNewsSummaryEmail, sendWelcomeEmail} from "@/lib/nodemailer";
+import {getAllUsersForNewsEmail} from "@/lib/actions/user.actions";
 
 export const sendSignUpEmail = inngest.createFunction(
     { id: 'sign-up-email' },
@@ -41,5 +42,22 @@ export const sendSignUpEmail = inngest.createFunction(
             success: true,
             message: 'Welcome email sent successfully'
         }
+    }
+)
+
+export const sendDailyNewsSummary = inngest.createFunction(
+    { id: 'daily-news-summary' },
+    [ { event: 'app/send.daily.news' }, { cron: '0 12 * * *' } ],
+    async ({ step }) => {
+        // Step #1: Get all users for news delivery
+        const users = await step.run('get-all-users', getAllUsersForNewsEmail)
+
+        if(!users || users.length === 0) return { success: false, message: 'No users found for news email' };
+
+        // Step #2: For each user, get watchlist symbols -> fetch news (fallback to general)
+        const results = await step.run('fetch-user-news', async () => {
+        });
+
+        return { success: true, message: 'Daily news summary emails sent successfully' }
     }
 )
